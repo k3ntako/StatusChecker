@@ -1,26 +1,28 @@
-import { getLogger, Logger, configure } from "log4js";
-configure({
-  appenders: {
-    everything: {
-      type: "file",
-      filename: "./all-the-logs.log",
-    },
-  },
-  categories: {
-    default: { appenders: ["everything"], level: "info" },
-  },
+import winston, { Logger, format } from "winston";
+const { combine, timestamp, json } = format;
+
+const logger = winston.createLogger({
+  level: "info",
+  format: combine(timestamp(), json()),
+  transports: [
+    new winston.transports.File({
+      filename: "logs/error.log",
+      level: "error",
+    }),
+    new winston.transports.File({ filename: "logs/combined.log" }),
+    new winston.transports.Console(),
+  ],
 });
 
 export interface ILoggerWrapper {
   info(message: string): void;
   error(message: string): void;
-  fatal(message: string): void;
 }
 
 export default class LoggerWrapper implements ILoggerWrapper {
   private logger: Logger;
   constructor() {
-    this.logger = getLogger();
+    this.logger = logger;
   }
 
   info(message: string) {
@@ -29,9 +31,5 @@ export default class LoggerWrapper implements ILoggerWrapper {
 
   error(message: string) {
     this.logger.error(message);
-  }
-
-  fatal(message: string) {
-    this.logger.fatal(message);
   }
 }
