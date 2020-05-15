@@ -1,7 +1,11 @@
 import LoggerWrapper from "./LoggerWrapper";
-import StatusChecker from "./StatusChecker";
+import App from "./App";
+import Setup from "./Setup";
 
-const logger = new LoggerWrapper();
-const statusChecker = new StatusChecker(logger);
+(async () => {
+  const logger = new LoggerWrapper();
+  const setup = new Setup(logger);
+  const app: App | null = await setup.setup();
 
-statusChecker.start();
+  app && (await app.run());
+})();

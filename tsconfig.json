@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "outDir": "dist/",
     "sourceMap": true,
-    "types": ["chai", "mocha"]
+    "types": ["chai", "mocha", "node-fetch"]
   },
   "include": ["src/**/*.ts"],
   "exclude": ["/node_modules", "**/*.spec.ts"]
