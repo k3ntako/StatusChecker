@@ -38,6 +38,7 @@ export default class StatusChecker implements IStatusChecker {
 
       const response = await this.fetcher.ping(url);
       if (response.status !== 200) {
+        // throw custom error with details
         return await this.handleError(
           `Server responded with status: ${response.status}`,
           await this.stringifyResponse(response)
@@ -50,6 +51,7 @@ export default class StatusChecker implements IStatusChecker {
     }
   }
 
+  // delete this and let the outside try catch handle all errors
   private async handleError(message: string, details: string) {
     this.logger.error(`${message} \n ${details}`);
     await this.emailer.send(message, details);

@@ -18,10 +18,12 @@ export default class LoggerWrapper implements ILoggerWrapper {
       format: combine(timestamp(), json()),
       transports: [
         new winston.transports.File({
-          filename: "logs/error.log",
+          filename: process.env.error_log_path,
           level: "error",
         }),
-        new winston.transports.File({ filename: "logs/combined.log" }),
+        new winston.transports.File({
+          filename: process.env.combined_log_path,
+        }),
         new winston.transports.Console(),
       ],
     });
