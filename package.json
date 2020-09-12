@@ -14,7 +14,7 @@
   "dependencies": {
     "@sendgrid/mail": "^7.1.0",
     "dotenv": "^8.2.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "winston": "^3.2.1"
   },
   "devDependencies": {
