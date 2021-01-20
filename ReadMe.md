@@ -25,12 +25,16 @@ npm i
 - `recipients` - the email addresses you want alerted (comma separated)
 - `sender` - the address from which the emails will be sent from
 - `url` - the url that you want to check
+- `error_log_path`=/tmp/wakebird/logs/error.log
+- `combined_log_path`=/tmp/wakebird/logs/combined.log
 
 ```
 SENDGRID_API_KEY=SG.your_api_key
 recipients=person1@example.com,person2@example.com
 sender=something@your_domain.com
 url=https://www.example.com
+error_log_path=/var/log/demo-app/error.log
+combined_log_path=/var/log/demo-app/combined.log
 ```
 
 6. Run `node ./src/index.js`
