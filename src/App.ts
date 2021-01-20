@@ -1,7 +1,7 @@
 import { ILoggerWrapper } from "./LoggerWrapper";
 import { IStatusChecker } from "./StatusChecker";
 import Emailer from "./Emailer";
-import SendGridWrapper from "./SendGridWrapper";
+import ServerStatusError from "./ServerStatusError";
 
 export default class App {
   private statusChecker: IStatusChecker;
@@ -23,17 +23,20 @@ export default class App {
       this.logger.info("Starting StatusChecker...");
       await this.statusChecker.start();
     } catch (error) {
-      this.handleError(error);
+      await this.handleError(error);
     } finally {
       this.logger.info("Finished running StatusChecker");
     }
   }
 
-  private async handleError(error: Error) {
+  private async handleError(error: Error | ServerStatusError) {
     try {
-      const emailer = new Emailer(new SendGridWrapper());
-      this.logger.error(`${error.message} \n ${error.stack}`);
-      await emailer.send(error.message, error.stack || "");
-    } catch (error) {}
+      const emailBody = await error.toString();
+
+      this.logger.error(emailBody);
+      await this.emailer.send(error.message, emailBody);
+    } catch (error) {
+      this.logger.error("Failed to send email:" + error.toString());
+    }
   }
 }

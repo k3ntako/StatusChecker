@@ -1,24 +1,16 @@
-import { ILoggerWrapper } from "./LoggerWrapper";
 import SendGridWrapper from "./SendGridWrapper";
 import Emailer from "./Emailer";
 import Fetcher from "./Fetcher";
 import StatusChecker from "./StatusChecker";
+import LoggerWrapper from "./LoggerWrapper";
 import App from "./App";
 
 export default class Setup {
-  logger: ILoggerWrapper;
-  constructor(loggerWrapper: ILoggerWrapper) {
-    this.logger = loggerWrapper;
-  }
+  constructor() {}
 
   async setup(): Promise<App | null> {
-    try {
-      await this.configureDotEnv();
-      return this.generateApp();
-    } catch (error) {
-      this.logger.error(error.message);
-      return null;
-    }
+    await this.configureDotEnv();
+    return this.generateApp();
   }
 
   private async configureDotEnv() {
@@ -36,13 +28,10 @@ export default class Setup {
   }
 
   private generateApp() {
+    const logger = new LoggerWrapper();
     const emailer = new Emailer(new SendGridWrapper());
-    const statusChecker = new StatusChecker(
-      this.logger,
-      new Fetcher(),
-      emailer
-    );
+    const statusChecker = new StatusChecker(logger, new Fetcher());
 
-    return new App(statusChecker, this.logger, emailer);
+    return new App(statusChecker, logger, emailer);
   }
 }
