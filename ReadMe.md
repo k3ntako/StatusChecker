@@ -31,8 +31,8 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
    - `recipients` - the email addresses you want alerted (comma separated)
    - `sender` - the address from which the emails will be sent from
    - `url` - the url that you want to check
-   - `error_log_path`=/tmp/wakebird/logs/error.log
-   - `combined_log_path`=/tmp/wakebird/logs/combined.log
+   - `error_log_path`=/tmp/demo_app/logs/error.log
+   - `combined_log_path`=/tmp/demo_app/logs/combined.log
 
    ```
    SENDGRID_API_KEY=SG.your_api_key
