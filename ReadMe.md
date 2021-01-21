@@ -120,6 +120,25 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
    }
    ```
 
-   - More information on log rotation setup:
-     - <https://www.tecmint.com/install-logrotate-to-manage-log-rotation-in-linux/>
-     - <https://www.tutorialspoint.com/unix_commands/logrotate.htm>
+3. Make sure the configurations are working. Make sure there are no errors.
+
+   ```
+   logrotate -d /etc/logrotate.d/demo_app.conf
+   ```
+
+4. Add log rotation to cron tab.
+
+   ```
+   $ crontab -e
+   ```
+
+   Set up the `logrotate` to run as frequently as you feel necessary. You probably won't need it to run more than once a day to begin. The following will have it run once a day at 3 am. Make sure you have the correct time zone ([how to set time zone](https://askubuntu.com/questions/54364/how-do-you-set-the-timezone-for-crontab)).
+
+   ```
+   * 3 * * * logrotate /etc/logrotate.d/demo_app.conf
+   ```
+
+More information on log rotation setup:
+
+- <https://www.tecmint.com/install-logrotate-to-manage-log-rotation-in-linux/>
+- <https://www.tutorialspoint.com/unix_commands/logrotate.htm>
