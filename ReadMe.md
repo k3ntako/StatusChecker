@@ -43,7 +43,7 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
    combined_log_path=/var/log/demo-app/combined.log
    ```
 
-7. Run `./run`
+7. Run `node ./dist/index.js`
 
 - This part can be automated with a cron job (explained in the next section).
 
@@ -71,24 +71,10 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
 
    ```
    # m h  dom mon dow   command
-   00,15,30,45 * * * * /opts/StatusChecker/run
+   00,15,30,45 * * * * node /opts/StatusChecker/dist/index.js
    ```
 
-4. You will likely need to change the permission on `run` file.
-
-   - Check the permissions.
-
-   ```
-   $ ls -l run
-   ```
-
-   - Change permissions to allow for the file to be executed.
-
-   ```
-   $ chmod 555 run
-   ```
-
-5. Once the program runs, your logs should be where you specified. To make sure that your machine doesn't get overwhelmed with massive log files, consider setting up log rotation in the next section.
+4. Once the program runs, your logs should be where you specified. To make sure that your machine doesn't get overwhelmed with massive log files, consider setting up log rotation in the next section.
 
 ## Log Rotation
 
@@ -132,13 +118,20 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
    $ crontab -e
    ```
 
-   Set up the `logrotate` to run as frequently as you feel necessary. You probably won't need it to run more than once a day to begin. The following will have it run once a day at 3 am. Make sure you have the correct time zone ([how to set time zone](https://askubuntu.com/questions/54364/how-do-you-set-the-timezone-for-crontab)).
+   - Set up the `logrotate` to run as frequently as you feel necessary. You probably won't need it to run more than once a day to begin. The following will have it run once a day at 3 am. Make sure you have the correct time zone ([how to set time zone](https://askubuntu.com/questions/54364/how-do-you-set-the-timezone-for-crontab)).
 
    ```
    * 3 * * * logrotate /etc/logrotate.d/demo_app.conf
+   ```
+
+   - If you have a permission issue like: `/var/lib/logrotate/status.tmp: Permission denied`, you might need to move the state file to your user's directory. Replace `/ubuntu/` with your username (check with `$ whoami`). More [here](https://stackoverflow.com/questions/10761495/error-error-creating-state-file-var-lib-logrotate-status-permission-denied).
+
+   ```
+   * 3 * * * logrotate --state /home/ubuntu/logrotate.status --verbose /etc/logrotate.d/demo_app.conf
    ```
 
 More information on log rotation setup:
 
 - <https://www.tecmint.com/install-logrotate-to-manage-log-rotation-in-linux/>
 - <https://www.tutorialspoint.com/unix_commands/logrotate.htm>
+- <https://linux.die.net/man/8/logrotate>
