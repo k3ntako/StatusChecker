@@ -6,20 +6,26 @@ Status Checker can be used with cron jobs in Linux to check if your website/serv
 
 1. Install dependencies:
 
-```
-npm i
-```
+   ```
+   npm i
+   ```
 
-2. Create a [SendGrid](https://sendgrid.com/) account and generate an API key.
+2. Build the program.
+
+   ```
+   npm run build
+   ```
+
+3. Create a [SendGrid](https://sendgrid.com/) account and generate an API key.
 
 - More on creating API key, [here](https://sendgrid.com/docs/ui/account-and-settings/api-keys/#creating-an-api-key).
 
-3. Set up your domain so SendGrid can send emails through your domain.
+4. Set up your domain so SendGrid can send emails through your domain.
 
 - Instructions can be found, [here](https://sendgrid.com/docs/ui/account-and-settings/how-to-set-up-domain-authentication/).
 
-4. Create a `.env` file in root directory of this project
-5. Inside the newly created `.env` file add the following:
+5. Create a `.env` file in root directory of this project
+6. Inside the newly created `.env` file add the following:
 
    - `SENDGRID_API_KEY` - your SendGrid API key SendGrid API key
    - `recipients` - the email addresses you want alerted (comma separated)
@@ -37,7 +43,7 @@ npm i
    combined_log_path=/var/log/demo-app/combined.log
    ```
 
-6. Run `./run`
+7. Run `./run`
 
 - This part can be automated with a cron job (explained in the next section).
 
